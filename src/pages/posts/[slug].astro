@@ -77,7 +77,12 @@ const structuredDataJson = JSON.stringify({
 </head>
 
 
-<Layout title={title} description={description} bodyClass="post-body">
+<Layout
+  title={`${title} | Gavin Daly | GavDaly`}
+  description={description}
+  type="article"
+  bodyClass="post-body"
+>
   <header slot="header" class="flex flex-col gap-6 md:gap-8">
     <div class="flex flex-col gap-4">
       {postState && (

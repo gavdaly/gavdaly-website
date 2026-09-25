@@ -110,6 +110,7 @@
     "geolocation",
     "runbooks",
     "lucide",
-    "describedby"
+    "describedby",
+    "llms"
   ]
 }

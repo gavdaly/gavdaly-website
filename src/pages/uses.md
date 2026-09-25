@@ -1,10 +1,12 @@
 ---
-title: "Uses 💻 Gav Daly"
+title: "Gavin Daly's tools and setup | GavDaly"
 description: "🛠️ A collection of tools, software and hardware setups that I use 💻 From computers to text editors and development stacks 🚀"
 type: "website"
 image: ""
 layout: ../layouts/MarkdownLayout.astro
 ---
+
+## Gavin Daly's tools and setup
 
 ## Editor & Terminal
 

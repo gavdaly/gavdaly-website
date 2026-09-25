@@ -209,7 +209,7 @@ export const onRequest: PagesFunction<Env> = async (
       : "";
   response.headers.append(
     "Link",
-    `</sitemap-index.xml>; rel="sitemap", </llm.txt>; rel="describedby"; type="text/markdown"${markdownLink}`,
+    `</sitemap-index.xml>; rel="sitemap", </llms.txt>; rel="describedby"; type="text/plain"${markdownLink}`,
   );
 
   context.waitUntil(telemetry.recordRequest(telemetryEvent));
