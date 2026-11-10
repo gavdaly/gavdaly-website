@@ -6,10 +6,10 @@
 
 Operate Gavin's public identity from `gavdaly.com` on both decentralized protocols:
 
-| Protocol | Public identity | Content type |
-| --- | --- | --- |
-| ActivityPub | `@gavin@gavdaly.com` | Actor profile and federated articles |
-| Nostr | `gavin@gavdaly.com` | NIP-05 identity and NIP-23 long-form articles |
+| Protocol    | Public identity      | Content type                                  |
+| ----------- | -------------------- | --------------------------------------------- |
+| ActivityPub | `@gavin@gavdaly.com` | Actor profile and federated articles          |
+| Nostr       | `gavin@gavdaly.com`  | NIP-05 identity and NIP-23 long-form articles |
 
 The site's Markdown content remains the only authoring source. A release publishes the canonical site first, then creates or updates protocol-specific representations from one versioned publication record.
 
@@ -82,15 +82,15 @@ IndieAuth makes `https://gavdaly.com/` a portable login identity and is the corr
 
 Implement these endpoints before publishing any content:
 
-| Route | Method | Responsibility |
-| --- | --- | --- |
-| `/.well-known/webfinger` | GET | Resolve `acct:gavin@gavdaly.com` to the ActivityPub actor URL with JRD content type. |
-| `/users/gavin` | GET | Return the ActivityStreams `Person` document when the request accepts ActivityPub JSON; otherwise serve a human-readable profile or redirect to one. |
-| `/users/gavin/inbox` | POST | Verify inbound signatures; accept Follow and Undo of Follow; reject unsupported activities explicitly. |
-| `/users/gavin/outbox` | GET | Return a paginated public ActivityPub collection. |
-| `/users/gavin/followers` | GET | Return the public follower collection according to the chosen privacy policy. |
-| `/.well-known/nostr.json` | GET | Retain the `gavin` NIP-05 mapping and add relay metadata only after the chosen relay list is stable. |
-| `/webmention` | POST | Accept form-encoded `source` and `target` notifications for eligible canonical posts and enqueue verification. |
+| Route                     | Method | Responsibility                                                                                                                                       |
+| ------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/.well-known/webfinger`  | GET    | Resolve `acct:gavin@gavdaly.com` to the ActivityPub actor URL with JRD content type.                                                                 |
+| `/users/gavin`            | GET    | Return the ActivityStreams `Person` document when the request accepts ActivityPub JSON; otherwise serve a human-readable profile or redirect to one. |
+| `/users/gavin/inbox`      | POST   | Verify inbound signatures; accept Follow and Undo of Follow; reject unsupported activities explicitly.                                               |
+| `/users/gavin/outbox`     | GET    | Return a paginated public ActivityPub collection.                                                                                                    |
+| `/users/gavin/followers`  | GET    | Return the public follower collection according to the chosen privacy policy.                                                                        |
+| `/.well-known/nostr.json` | GET    | Retain the `gavin` NIP-05 mapping and add relay metadata only after the chosen relay list is stable.                                                 |
+| `/webmention`             | POST   | Accept form-encoded `source` and `target` notifications for eligible canonical posts and enqueue verification.                                       |
 
 Set `application/activity+json` or the required JSON-LD profile content type for protocol documents. Apply cache headers only to immutable public actor and published-object responses; do not cache inbox responses, authenticated administration, or follower mutations.
 

@@ -34,7 +34,8 @@ const staticPages: Record<string, MarkdownPage> = {
   },
   developer: {
     title: "Gavin Daly Developer Resources",
-    description: "Developer resources, projects, technical notes, and machine-readable links for Gavin Daly.",
+    description:
+      "Developer resources, projects, technical notes, and machine-readable links for Gavin Daly.",
     body: "Gavin Daly is a software developer based in Canada. Browse his public projects, code, writing, and machine-readable resources at https://gavdaly.com/developer.",
   },
   contact: {
