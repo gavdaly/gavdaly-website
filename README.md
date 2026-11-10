@@ -1,7 +1,7 @@
 # Gavin Daly Website
 
-[![CI](https://github.com/gavdaly/gavdaly/actions/workflows/ci.yml/badge.svg)](https://github.com/gavdaly/gavdaly/actions/workflows/ci.yml)
-[![Link Check](https://github.com/gavdaly/gavdaly/actions/workflows/linkcheck.yml/badge.svg)](https://github.com/gavdaly/gavdaly/actions/workflows/linkcheck.yml)
+[![CI](https://github.com/gavdaly/gavdaly-website/actions/workflows/ci.yml/badge.svg)](https://github.com/gavdaly/gavdaly-website/actions/workflows/ci.yml)
+[![Link Check](https://github.com/gavdaly/gavdaly-website/actions/workflows/linkcheck.yml/badge.svg)](https://github.com/gavdaly/gavdaly-website/actions/workflows/linkcheck.yml)
 
 See the project roadmap: [docs/ROADMAP.md](docs/ROADMAP.md)
 
