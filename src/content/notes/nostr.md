@@ -44,7 +44,7 @@ tags:
 ### Apps
 
 - [Apps 101](https://www.youtube.com/watch?v=Flxa_jkErqE&t=7s)
-- [flockstr - meetup](https://www.flockstr.com/)
+- [Plektos - meetups and events](https://plektos.app/)
 - [flare - videos](https://flare.pub/)
 - [noderunners](https://radio.noderunners.org/)
 - [hive talk](https://hivetalk.org/active)
