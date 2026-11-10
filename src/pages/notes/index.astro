@@ -5,8 +5,8 @@ import Layout from "@/layouts/Layout.astro";
 const notes = await getCollection("notes");
 ---
 
-<Layout title="Notes | GavDaly" description="Listing of Notes by Gavin Daly">
-  <h1>Notes</h1>
+<Layout title="Notes by Gavin Daly | GavDaly" description="Technical notes by Gavin Daly about software, infrastructure, privacy, and security.">
+  <h1>Notes by Gavin Daly</h1>
   <ul>
     {
       notes.map((note) => (

@@ -32,6 +32,12 @@ const staticPages: Record<string, MarkdownPage> = {
     description: "About Gavin Daly and this website.",
     body: "I’m Gavin Daly, a software developer based in Canada. This website shares the projects I build, technical notes I want to remember, and writing about the tools and ideas that shape my work.",
   },
+  developer: {
+    title: "Gavin Daly Developer Resources",
+    description:
+      "Developer resources, projects, technical notes, and machine-readable links for Gavin Daly.",
+    body: "Gavin Daly is a software developer based in Canada. Browse his public projects, code, writing, and machine-readable resources at https://gavdaly.com/developer.",
+  },
   contact: {
     title: "Contact Gavin Daly",
     description: "Get in touch with Gavin Daly.",
@@ -70,7 +76,7 @@ const staticPages: Record<string, MarkdownPage> = {
   "404": {
     title: "Not Found",
     description: "The requested page could not be found.",
-    body: "This URL does not identify a page on gavdaly.com. See https://gavdaly.com/sitemap-index.xml or https://gavdaly.com/llm.txt to find available content.",
+    body: "This URL does not identify a page on gavdaly.com. See https://gavdaly.com/sitemap-index.xml, https://gavdaly.com/llms.txt, or https://gavdaly.com/developer to find available content.",
   },
   "500": {
     title: "Something went wrong",

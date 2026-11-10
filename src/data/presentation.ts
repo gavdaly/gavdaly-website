@@ -12,7 +12,7 @@ interface Presentation {
 }
 
 export const presentation: Presentation = {
-  title: "Hi, I’m Gavin",
+  title: "Hi, I’m Gavin Daly",
   profile: "/profile.jpg",
   description: "Developer from Canada 🇨🇦. I like to build things with code.",
   socials: [

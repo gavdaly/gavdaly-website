@@ -13,7 +13,7 @@ concurrency:
 jobs:
   secrets:
     name: Secret scanning
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -24,22 +24,12 @@ jobs:
         uses: gitleaks/gitleaks-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          config-path: gitleaks.toml
-          baseline-path: gitleaks.baseline.json
-          redact: true
-          report-format: sarif
-          report-path: gitleaks-report.sarif
-
-      - name: Upload Gitleaks report
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v5
-        with:
-          name: gitleaks-report
-          path: gitleaks-report.sarif
+          GITLEAKS_CONFIG: gitleaks.toml
+          # The action redacts findings and uploads results.sarif itself.
+          GITLEAKS_ENABLE_UPLOAD_ARTIFACT: "true"
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     strategy:
       matrix:
         node: [22.x, 24.x]
@@ -89,7 +79,7 @@ jobs:
         run: npm run build
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: site-dist-${{ matrix.node }}
           path: dist
