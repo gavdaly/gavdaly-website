@@ -1,9 +1,7 @@
 title = "gavdaly gitleaks configuration"
 
-[[extend]]
-repo = "gitleaks/gitleaks"
-ref = "v8.18.0"
-path = "config/gitleaks.toml"
+[extend]
+useDefault = true
 
 [allowlist]
 description = "Allow known test credentials used in documentation and fixtures"
