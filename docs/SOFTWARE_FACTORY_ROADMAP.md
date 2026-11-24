@@ -1,4 +1,5 @@
-Software Factory Roadmap & Operating Guide (⁠gavdaly-website⁠)
+# Software Factory Roadmap & Operating Guide (⁠gavdaly-website⁠)
+
 This document outlines the architecture, checklist, and operating rules to transform ⁠gavdaly/gavdaly-website⁠ (Astro 7, SolidJS, Tailwind CSS v4, Cloudflare Pages & D1) into an automated Software Factory—capable of safely accepting structured specifications from humans or AI coding agents, validating every change through deterministic quality gates, and deploying to production without manual intervention.
 
 1. Current Factory Inventory (Already Built)

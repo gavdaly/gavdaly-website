@@ -94,6 +94,8 @@
     "sitesearch",
     "networkidle",
     "LHCI",
+    "JTBD",
+    "lighthouserc",
     "autorun",
     "lhci",
     "lychee",
