@@ -1,61 +1,22 @@
 ---
 import ThemeToggle from "@/components/ThemeToggle.astro";
 import VectorSearch from "@/components/VectorSearch.astro";
-
-let pathname = new URL(Astro.request.url).pathname;
+const pathname = new URL(Astro.request.url).pathname;
+const links = [
+  { label: "home", href: "/" }, { label: "posts", href: "/posts" }, { label: "projects", href: "/projects" },
+  { label: "developer", href: "/developer" }, { label: "contact", href: "/contact" }, { label: "uses", href: "/uses" },
+];
 ---
 
-<header
-  class="z-40 mb-6 md:mb-10 flex w-full flex-col gap-2 md:flex-row md:justify-between"
->
-  <span></span>
-
-  <nav aria-label="Primary" role="navigation">
-    <ul role="list" class="flex flex-row items-center gap-2">
-      {
-        [
-          { label: "home", href: "/" },
-          { label: "posts", href: "/posts" },
-          { label: "projects", href: "/projects" },
-          { label: "developer", href: "/developer" },
-          { label: "contact", href: "/contact" },
-          { label: "uses", href: "/uses" },
-        ].map((link, index, array) => (
-          <>
-            <li>
-              <a
-                href={link.href}
-                class="rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
-                class:list={{
-                  ["hover:text-sky-900 dark:hover:text-sky-100 hover:underline"]: true,
-                  ["text-sky-900 dark:text-sky-100 hover:no-underline"]:
-                    pathname === link.href,
-                }}
-                aria-current={pathname === link.href ? "page" : undefined}
-              >
-                {link.label}
-              </a>
-            </li>
-            {index < array.length - 1 && (
-              <li aria-hidden="true" class="select-none text-sky-500 dark:text-sky-400">
-                |
-              </li>
-            )}
-          </>
-        ))
-      }
-      <li aria-hidden="true" class="select-none text-sky-500 dark:text-sky-400">
-        |
-      </li>
-      <li>
-        <VectorSearch />
-      </li>
-      <li aria-hidden="true" class="select-none text-sky-500 dark:text-sky-400">
-        |
-      </li>
-      <li>
-        <ThemeToggle />
-      </li>
-    </ul>
-  </nav>
+<header class="sticky top-0 z-50 border-b border-[var(--border)] bg-[rgba(48,52,70,0.75)] backdrop-blur-md [-webkit-backdrop-filter:blur(12px)]">
+  <div class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-4 md:px-10">
+    <a href="/" class="text-lg font-bold tracking-tight text-[var(--text)]">Gavin Daly</a>
+    <nav aria-label="Primary" class="flex items-center gap-4">
+      <ul role="list" class="hidden items-center gap-5 text-sm md:flex">
+        {links.map((link) => <li><a href={link.href} aria-current={pathname === link.href ? "page" : undefined} class:list={["border-b-2 border-transparent pb-1 transition-colors hover:text-[var(--accent-hover)]", pathname === link.href && "border-[var(--accent)] text-[var(--accent)]"]}>{link.label}</a></li>)}
+      </ul>
+      <VectorSearch />
+      <ThemeToggle />
+    </nav>
+  </div>
 </header>

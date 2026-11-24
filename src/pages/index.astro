@@ -22,13 +22,11 @@ const descriptionLines = presentation.description
   description="A minimal portfolio for Gavin Daly, a software developer based in Canada."
   markdownUrl="/index.md"
 >
-  <article
-    class="flex flex-col gap-10 md:flex-row-reverse md:justify-between md:gap-14 pb-8"
-  >
-    <div class="w-1/4 md:justify-end">
+  <article class="flex flex-col-reverse items-center gap-10 py-12 md:flex-row md:justify-between md:gap-16 md:py-24">
+    <div class="shrink-0">
       <Picture
         src={profile}
-        class="rounded-full md:justify-end shadow-md"
+        class="rounded-full border-2 border-[var(--accent)] shadow-[0_0_0_4px_rgba(140,170,238,0.15)]"
         alt="Profile Image"
         widths={[100, 200, 400, profile.width]}
         formats={["webp", "avif"]}
@@ -38,24 +36,25 @@ const descriptionLines = presentation.description
       />
     </div>
 
-    <div class="flex flex-col gap-8">
-      <h1 class="text-3xl font-bold">
+    <div class="flex max-w-2xl flex-col gap-7">
+      <h1 class="text-[var(--text-4xl)] font-bold leading-none tracking-tight md:text-[var(--text-hero)]">
         {presentation.title}
         <WaveEmoji />
       </h1>
 
-      <h2 class="text-xl md:text-2xl leading-8 space-y-2">
+      <p class="text-[var(--text-lg)] leading-8 text-[var(--text-muted)] md:text-[var(--text-xl)]">
         {descriptionLines.map((line) => (
           <span class="block">{line}</span>
         ))}
-      </h2>
+      </p>
 
       <SocialLinks />
+      <a href="#posts" class="w-fit text-sm font-semibold text-[var(--accent)] transition-colors hover:text-[var(--accent-hover)]">See my work ↓</a>
     </div>
   </article>
 
-  <section class="mb-10 max-w-3xl space-y-4 text-base leading-7">
-    <h2 class="text-2xl font-bold">About this site</h2>
+  <section class="mb-10 max-w-3xl space-y-4 text-[var(--text-base)] leading-7">
+    <h2 class="text-[var(--text-3xl)] font-semibold">About this site</h2>
     <p>
       I use this site as a home for the things I build, learn, and write about.
       It includes notes on software, infrastructure, privacy, and tools that
@@ -77,8 +76,8 @@ const descriptionLines = presentation.description
     </p>
   </section>
 
-  <section class="mb-10 max-w-3xl space-y-4 text-base leading-7">
-    <h2 class="text-2xl font-bold">Gavin Daly developer resources</h2>
+  <section class="mb-10 max-w-3xl space-y-4 text-[var(--text-base)] leading-7">
+    <h2 class="text-[var(--text-3xl)] font-semibold">Gavin Daly developer resources</h2>
     <p>
       For a compact index of Gavin Daly's projects, code, writing, and
       machine-readable resources, visit{" "}
