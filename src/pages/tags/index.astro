@@ -13,7 +13,7 @@ notes.forEach((note) => {
   note.data.tags?.forEach((tag) => {
     let data = {
       title: note.data.title,
-      url: `/notes/${note.slug}`,
+      url: `/notes/${note.id}`,
     };
     let t = tag_store.get(tag);
     if (t) {
@@ -28,7 +28,7 @@ projects.forEach((project) => {
   project.data.tags?.forEach((tag) => {
     let data = {
       title: project.data.title,
-      url: `/projects/${project.slug}`,
+      url: `/projects/${project.id}`,
     };
     let t = tag_store.get(tag);
     if (t) {
@@ -43,7 +43,7 @@ posts.forEach((post) => {
   post.data.tags?.forEach((tag) => {
     let data = {
       title: post.data.title,
-      url: `/posts/${post.slug}`,
+      url: `/posts/${post.id}`,
     };
     let t = tag_store.get(tag);
     if (t) {
@@ -57,9 +57,9 @@ const names = Array.from(tag_store.keys());
 ---
 
 <Layout
-  title="Listing of Tags | GavDaly"
-  description="A listing of the tags from the content on the site"
+  title="Tags on Gavin Daly's site | GavDaly"
+  description="A listing of topics from Gavin Daly's posts, notes, and projects."
 >
-  <h1>Tags</h1>
+  <h1>Topics on Gavin Daly's site</h1>
   <Tags names={names} />
 </Layout>

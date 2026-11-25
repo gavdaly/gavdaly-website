@@ -7,24 +7,35 @@ type Props = HTMLAttributes<"a"> & {
   image?: string;
 };
 
-const { label, image, isUnderline, ...props } = Astro.props;
+const {
+  label,
+  image,
+  isUnderline,
+  target = "_blank",
+  rel = "noreferrer",
+  ...props
+} = Astro.props;
 ---
 
 <a
   href={props.href}
   class:list={{
-    ["hover:text-sky-800 dark:hover:text-sky-100 transition cursor-pointer"]: true,
-    ["underline decoration-dashed hover:underline-offset-2"]: isUnderline,
+    "inline-flex items-center gap-2 text-lg font-semibold transition-colors hover:text-sky-800 dark:hover:text-sky-100 cursor-pointer":
+      true,
+    "underline decoration-sky-600 underline-offset-8 decoration-2 hover:decoration-sky-400":
+      isUnderline,
   }}
   {...props}
-  rel="noreferrer"
-  target="_blank"
+  rel={rel}
+  target={target}
 >
   {
     image ? (
       <img src={image} alt={label} class="h-4 w-4" />
     ) : (
-      <span class="text-lg">{label}</span>
+      <span class="inline-flex items-center gap-2 text-lg">
+        {label}
+      </span>
     )
   }
 </a>

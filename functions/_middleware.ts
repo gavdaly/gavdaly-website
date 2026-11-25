@@ -1,11 +1,14 @@
 import type {
   D1Database,
+  AnalyticsEngineDataset,
   PagesFunction,
   Response as CFResponse,
   FormData,
   Request,
   IncomingRequestCfProperties,
 } from "@cloudflare/workers-types";
+import { applySecurityHeaders } from "./securityHeaders";
+import { createTelemetryClient, type RequestLogEvent } from "./telemetry";
 
 /**
  * Environment variables interface for Cloudflare Pages Function
@@ -16,6 +19,9 @@ export interface Env {
   DISCORD_WEBHOOK: string;
   TURNSTILE_SECRET_KEY: string;
   DB: D1Database;
+  OBS_EVENTS?: AnalyticsEngineDataset;
+  OBS_SAMPLE_RATE?: string;
+  OBS_ENVIRONMENT?: string;
 }
 
 /**
@@ -33,64 +39,182 @@ export interface Env {
 export const onRequest: PagesFunction<Env> = async (
   context,
 ): Promise<CFResponse> => {
-  const discord_hook = context.env.DISCORD_WEBHOOK;
-  const turnstile_secret = context.env.TURNSTILE_SECRET_KEY;
-
+  const telemetry = createTelemetryClient(context.env);
   const request = context.request;
+  const url = new URL(request.url);
+  const startTime = Date.now();
+  const requestId = crypto.randomUUID();
 
-  if (request.method !== "POST") {
-    return context.next();
+  let response: CFResponse | undefined;
+
+  const telemetryEvent: RequestLogEvent = {
+    requestId,
+    route: url.pathname,
+    method: request.method,
+    status: 0,
+    durationMs: 0,
+    outcome: "unhandled",
+    colo: request.cf?.colo,
+    country: request.cf?.country,
+    rayId: request.headers.get("cf-ray"),
+  };
+
+  try {
+    const discord_hook = context.env.DISCORD_WEBHOOK;
+    const turnstile_secret = context.env.TURNSTILE_SECRET_KEY;
+
+    if (request.method === "POST" && url.pathname === "/__csp-report") {
+      try {
+        const report = await request.json();
+        console.warn("CSP violation", JSON.stringify(report));
+      } catch (error) {
+        console.warn("Failed to parse CSP report", error);
+      }
+      response = applySecurityHeaders(new Response(null, { status: 204 }));
+      telemetryEvent.outcome = "csp_report";
+      telemetryEvent.details = undefined;
+      telemetryEvent.formName = undefined;
+      telemetryEvent.status = response.status;
+    } else if (request.method !== "POST") {
+      const nextResponse = await context.next();
+      response = applySecurityHeaders(nextResponse);
+      telemetryEvent.outcome = "pass_through";
+      telemetryEvent.details = undefined;
+      telemetryEvent.formName = undefined;
+      telemetryEvent.status = response.status;
+    } else {
+      const connection = context.env.DB;
+      const formData = await request.formData();
+
+      const turnstileToken = formData.get("cf-turnstile-response");
+      if (!turnstileToken) {
+        await storeInvalidRequest(
+          connection,
+          "missing_token",
+          request,
+          formData,
+        );
+        telemetryEvent.outcome = "missing_token";
+        telemetryEvent.details = "cf-turnstile-response";
+        response = applySecurityHeaders(new Response("ok", { status: 200 }));
+      } else {
+        const isValid = await verifyTurnstileToken(
+          turnstileToken.toString(),
+          turnstile_secret,
+        );
+
+        if (!isValid) {
+          await storeInvalidRequest(
+            connection,
+            "invalid_token",
+            request,
+            formData,
+          );
+          telemetryEvent.outcome = "invalid_token";
+          telemetryEvent.details = "turnstile_verification_failed";
+          response = applySecurityHeaders(new Response("ok", { status: 200 }));
+        } else {
+          const nameEntry = formData.get("form-name");
+          if (!nameEntry) {
+            await storeInvalidRequest(
+              connection,
+              "missing_form_name",
+              request,
+              formData,
+            );
+            telemetryEvent.outcome = "missing_form_name";
+            telemetryEvent.details = "form-name";
+            response = applySecurityHeaders(
+              new Response("Unknown form name", {
+                status: 400,
+              }),
+            );
+          } else {
+            const name = nameEntry.toString();
+            telemetryEvent.formName = name;
+            telemetryEvent.details = undefined;
+
+            switch (name) {
+              case "contact":
+                response = applySecurityHeaders(
+                  await contact(formData, discord_hook, connection, request),
+                );
+                telemetryEvent.outcome =
+                  response.status >= 500 ? "webhook_error" : "form_success";
+                telemetryEvent.details =
+                  response.status >= 500 ? "discord_webhook_failed" : undefined;
+                break;
+              default:
+                await storeInvalidRequest(
+                  connection,
+                  "incorrect_form_name",
+                  request,
+                  formData,
+                );
+                telemetryEvent.outcome = "incorrect_form_name";
+                telemetryEvent.details = "unknown_form";
+                response = applySecurityHeaders(
+                  new Response("Unknown form name", {
+                    status: 400,
+                  }),
+                );
+            }
+          }
+        }
+      }
+
+      telemetryEvent.status = response.status;
+    }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    const stack = error instanceof Error ? error.stack : undefined;
+
+    telemetryEvent.outcome = "exception";
+    telemetryEvent.status = 500;
+
+    context.waitUntil(
+      telemetry.recordError({
+        requestId,
+        route: telemetryEvent.route,
+        method: telemetryEvent.method,
+        message,
+        stack,
+      }),
+    );
+
+    response = applySecurityHeaders(
+      new Response("Internal Server Error", { status: 500 }),
+    );
   }
 
-  const connection = context.env.DB;
+  telemetryEvent.durationMs = Date.now() - startTime;
 
-  const formData = await request.formData();
-
-  const turnstileToken = formData.get("cf-turnstile-response");
-  if (!turnstileToken) {
-    await storeInvalidRequest(connection, "missing_token", request, formData);
-
-    return new Response("ok", { status: 200 }) as unknown as CFResponse;
+  if (!response) {
+    response = applySecurityHeaders(
+      new Response("Internal Server Error", { status: 500 }),
+    );
   }
 
-  const isValid = await verifyTurnstileToken(
-    turnstileToken.toString(),
-    turnstile_secret,
+  if (!telemetryEvent.status) {
+    telemetryEvent.status = response.status;
+  }
+
+  if (telemetryEvent.outcome === "unhandled") {
+    telemetryEvent.outcome = telemetryEvent.status >= 500 ? "error" : "ok";
+  }
+
+  const markdownLink =
+    url.pathname === "/"
+      ? ', </index.md>; rel="alternate"; type="text/markdown"'
+      : "";
+  response.headers.append(
+    "Link",
+    `</sitemap-index.xml>; rel="sitemap", </llms.txt>; rel="describedby"; type="text/plain"${markdownLink}`,
   );
 
-  if (!isValid) {
-    await storeInvalidRequest(connection, "invalid_token", request, formData);
+  context.waitUntil(telemetry.recordRequest(telemetryEvent));
 
-    return new Response("ok", { status: 200 }) as unknown as CFResponse;
-  }
-
-  const nameEntry = formData.get("form-name");
-  if (!nameEntry) {
-    await storeInvalidRequest(
-      connection,
-      "missing_form_name",
-      request,
-      formData,
-    );
-    return new Response("Unknown form name", {
-      status: 400,
-    }) as unknown as CFResponse;
-  }
-  const name = nameEntry.toString();
-  switch (name) {
-    case "contact":
-      return await contact(formData, discord_hook, connection, request);
-    default:
-      await storeInvalidRequest(
-        connection,
-        "incorrect_form_name",
-        request,
-        formData,
-      );
-      return new Response("Unknown form name", {
-        status: 400,
-      }) as unknown as CFResponse;
-  }
+  return response;
 };
 
 /**

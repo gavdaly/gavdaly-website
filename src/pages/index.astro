@@ -5,22 +5,28 @@ import Layout from "@/layouts/Layout.astro";
 import SocialLinks from "@/components/SocialLinks.astro";
 import ProjectListing from "@/components/ProjectListing.astro";
 import PostsListing from "@/components/PostsListing.astro";
+import WaveEmoji from "@/components/WaveEmoji.astro";
 
 import { presentation } from "@/data/presentation";
 import profile from "./_profile.jpg";
+
+const descriptionLines = presentation.description
+  .split(". ")
+  .map((part, index, array) =>
+    index < array.length - 1 ? `${part}.` : part,
+  );
 ---
 
 <Layout
-  title="Home"
+  title="Gavin Daly — Developer in Canada | GavDaly"
   description="A minimal portfolio for Gavin Daly, a software developer based in Canada."
+  markdownUrl="/index.md"
 >
-  <article
-    class="flex flex-col gap-8 md:flex-row-reverse md:justify-between md:gap-12 pb-6"
-  >
-    <div class="w-1/4 md:justify-end">
+  <article class="flex flex-col-reverse items-center gap-10 py-12 md:flex-row md:justify-between md:gap-16 md:py-24">
+    <div class="shrink-0">
       <Picture
         src={profile}
-        class="rounded-full md:justify-end shadow-md"
+        class="rounded-full border-2 border-[var(--accent)] shadow-[0_0_0_4px_rgba(140,170,238,0.15)]"
         alt="Profile Image"
         widths={[100, 200, 400, profile.width]}
         formats={["webp", "avif"]}
@@ -30,16 +36,57 @@ import profile from "./_profile.jpg";
       />
     </div>
 
-    <div class="flex flex-col gap-8">
-      <h1 class="text-3xl font-bold">
+    <div class="flex max-w-2xl flex-col gap-7">
+      <h1 class="text-[var(--text-4xl)] font-bold leading-none tracking-tight md:text-[var(--text-hero)]">
         {presentation.title}
+        <WaveEmoji />
       </h1>
 
-      <h2 class="w-auto leading-6" set:html={presentation.description} />
+      <p class="text-[var(--text-lg)] leading-8 text-[var(--text-muted)] md:text-[var(--text-xl)]">
+        {descriptionLines.map((line) => (
+          <span class="block">{line}</span>
+        ))}
+      </p>
 
       <SocialLinks />
+      <a href="#posts" class="w-fit text-sm font-semibold text-[var(--accent)] transition-colors hover:text-[var(--accent-hover)]">See my work ↓</a>
     </div>
   </article>
+
+  <section class="mb-10 max-w-3xl space-y-4 text-[var(--text-base)] leading-7">
+    <h2 class="text-[var(--text-3xl)] font-semibold">About this site</h2>
+    <p>
+      I use this site as a home for the things I build, learn, and write about.
+      It includes notes on software, infrastructure, privacy, and tools that
+      help me understand how the web works, along with longer posts that record
+      ideas and lessons from ongoing projects. The projects section collects
+      practical experiments ranging from small web applications to home-lab
+      and network work. Some are finished, while others are deliberately still
+      in progress: the unfinished parts are often where the most useful
+      questions live.
+    </p>
+    <p>
+      I care about simple interfaces, dependable systems, and software that is
+      understandable to the people who use and maintain it. When I publish
+      something here, I try to include enough context for it to be useful on
+      its own: what I was trying to solve, which tools I chose, and what I
+      learned along the way. Browse the latest writing or selected projects,
+      and follow the links if you want to explore the code or start a
+      conversation.
+    </p>
+  </section>
+
+  <section class="mb-10 max-w-3xl space-y-4 text-[var(--text-base)] leading-7">
+    <h2 class="text-[var(--text-3xl)] font-semibold">Gavin Daly developer resources</h2>
+    <p>
+      For a compact index of Gavin Daly's projects, code, writing, and
+      machine-readable resources, visit{" "}
+      <a href="/developer" class="font-medium underline underline-offset-4">
+        developer resources
+      </a>
+      .
+    </p>
+  </section>
 
   <PostsListing />
 

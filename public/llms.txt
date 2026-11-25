@@ -1,0 +1,30 @@
+# Gavin Daly Developer Resources
+
+> Developer resources and machine-readable content for Gavin Daly (GavDaly), a software developer based in Canada.
+
+## Developer Resources
+
+- [Gavin Daly Developer Resources](https://gavdaly.com/developer): A human-readable index of Gavin Daly's public developer resources.
+- [Gavin Daly on GitHub](https://github.com/gavdaly): Gavin Daly's GitHub profile and public repositories.
+- [GavDaly source on GitHub](https://github.com/gavdaly/gavdaly): Source code for the GavDaly website.
+- [Gavin Daly Projects](https://gavdaly.com/projects): Software, infrastructure, home-lab, and network projects.
+- [Gavin Daly Technical Notes](https://gavdaly.com/notes): Technical notes on software, infrastructure, privacy, and security.
+- [Gavin Daly Posts](https://gavdaly.com/posts): Writing by Gavin Daly.
+
+## Site Reference
+
+- [Gavin Daly Homepage](https://gavdaly.com/): Personal portfolio and writing site.
+- [About Gavin Daly](https://gavdaly.com/about): Background and interests.
+- [Contact Gavin Daly](https://gavdaly.com/contact): Contact page.
+- [GavDaly Sitemap](https://gavdaly.com/sitemap-index.xml): Crawlable index of site pages.
+
+## Machine-Readable Resources
+
+- [Gavin Daly LLM Index](https://gavdaly.com/llms.txt): This resource index for language-model and agent discovery.
+- [Gavin Daly Markdown Index](https://gavdaly.com/index.md): Machine-readable site introduction and content summary.
+- [Gavin Daly Developer Resources Markdown](https://gavdaly.com/developer.md): Markdown representation of the developer-resource index.
+- [GavDaly Agentic Resource Discovery Manifest](https://gavdaly.com/.well-known/ard.json): ARD metadata for the site's Markdown content.
+- [Gavin Daly Security Contact](https://gavdaly.com/.well-known/security.txt): Security contact and policy location.
+- [Gavin Daly Nostr Identity](https://gavdaly.com/.well-known/nostr.json): Public Nostr identity mapping.
+
+Gavin Daly does not currently publish a supported public API, OpenAPI specification, SDK, or MCP server. The links above are the current public developer resources.
