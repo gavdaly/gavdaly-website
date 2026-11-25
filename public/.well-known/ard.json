@@ -1,0 +1,19 @@
+{
+  "entries": [
+    {
+      "@context": "https://agenticresourcediscovery.org/context/v1",
+      "identifier": "urn:air:gavdaly.com:content:markdown",
+      "displayName": "Gavin Daly Markdown Content",
+      "type": "text/markdown",
+      "url": "https://gavdaly.com/index.md",
+      "description": "Machine-readable Markdown representation of Gavin Daly's portfolio; individual posts, notes, and projects are available at their corresponding .md routes.",
+      "representativeQueries": [
+        "Find Gavin Daly's writing about privacy and encryption",
+        "Browse Gavin Daly's software and infrastructure projects",
+        "Find technical notes about Astro, Cloudflare, or web development"
+      ],
+      "capabilities": ["content-retrieval", "markdown"],
+      "tags": ["content", "markdown", "portfolio", "writing"]
+    }
+  ]
+}

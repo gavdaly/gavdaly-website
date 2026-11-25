@@ -1,0 +1,15 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"a"> & {
+  href: string;
+};
+
+const { class: extraClass = "", ...props } = Astro.props as Props;
+
+const baseClass = "card group block cursor-pointer focus-visible:outline-none";
+---
+
+<a class={`${baseClass} ${extraClass}`.trim()} {...props}>
+  <slot />
+</a>

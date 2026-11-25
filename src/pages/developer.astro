@@ -1,0 +1,102 @@
+---
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout
+  title="Gavin Daly Developer Resources | GavDaly"
+  description="Developer resources, projects, technical notes, and machine-readable links for Gavin Daly."
+  markdownUrl="/developer.md"
+>
+  <div class="flex flex-col gap-10">
+    <header class="flex flex-col gap-4">
+      <h1 class="text-4xl font-black tracking-tight text-sky-950 dark:text-sky-100 md:text-5xl">
+        Gavin Daly Developer Resources
+      </h1>
+      <p class="text-lg leading-8 text-sky-800 dark:text-sky-200">
+        Gavin Daly is a software developer based in Canada. This page collects
+        his public projects, code, writing, and machine-readable resources.
+      </p>
+    </header>
+
+    <section aria-labelledby="developer-resources" class="flex flex-col gap-4">
+      <h2 id="developer-resources" class="text-2xl font-bold">
+        Projects and code by Gavin Daly
+      </h2>
+      <ul class="list-disc space-y-3 pl-6 text-lg leading-8">
+        <li>
+          <a href="https://github.com/gavdaly">Gavin Daly on GitHub</a> —
+          profile and public repositories.
+        </li>
+        <li>
+          <a href="https://github.com/gavdaly/gavdaly">
+            GavDaly source on GitHub
+          </a>
+          — source code for this website.
+        </li>
+        <li>
+          <a href="/projects">Gavin Daly projects</a> — software,
+          infrastructure, home-lab, and network work.
+        </li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="writing-resources" class="flex flex-col gap-4">
+      <h2 id="writing-resources" class="text-2xl font-bold">
+        Writing and technical reference
+      </h2>
+      <ul class="list-disc space-y-3 pl-6 text-lg leading-8">
+        <li>
+          <a href="/notes">Gavin Daly technical notes</a> — practical notes on
+          software, infrastructure, privacy, and security.
+        </li>
+        <li>
+          <a href="/posts">Gavin Daly posts</a> — longer writing about
+          development and the tools behind it.
+        </li>
+        <li>
+          <a href="/about">About Gavin Daly</a> — background, interests, and
+          approach to building software.
+        </li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="machine-resources" class="flex flex-col gap-4">
+      <h2 id="machine-resources" class="text-2xl font-bold">
+        Machine-readable Gavin Daly resources
+      </h2>
+      <ul class="list-disc space-y-3 pl-6 text-lg leading-8">
+        <li>
+          <a href="/llms.txt">Gavin Daly LLM index</a> — this developer-resource
+          index for agents and language models.
+        </li>
+        <li>
+          <a href="/index.md">Gavin Daly Markdown index</a> — machine-readable
+          site introduction.
+        </li>
+        <li>
+          <a href="/.well-known/ard.json">GavDaly ARD manifest</a> — Agentic
+          Resource Discovery metadata.
+        </li>
+        <li>
+          <a href="/.well-known/security.txt">Gavin Daly security contact</a> —
+          security.txt and policy location.
+        </li>
+        <li>
+          <a href="/.well-known/nostr.json">Gavin Daly Nostr identity</a> —
+          public identity mapping.
+        </li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="api-status" class="flex flex-col gap-4">
+      <h2 id="api-status" class="text-2xl font-bold">
+        Gavin Daly API and SDK status
+      </h2>
+      <p class="text-lg leading-8">
+        Gavin Daly does not currently publish a supported public API, OpenAPI
+        specification, SDK, or MCP server. The resources on this page are the
+        current public developer surface.
+      </p>
+    </section>
+  </div>
+</Layout>

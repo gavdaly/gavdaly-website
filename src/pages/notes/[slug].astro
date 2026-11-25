@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import Layout from "@/layouts/MarkdownLayout.astro";
 import type { CollectionEntry } from "astro:content";
 import Tags from "@/components/Tags.astro";
@@ -9,7 +9,7 @@ export async function getStaticPaths() {
   const notes = await getCollection("notes");
 
   return notes.map((note) => ({
-    params: { slug: note.slug },
+    params: { slug: note.id },
     props: { note },
   }));
 }
@@ -24,17 +24,23 @@ const {
   data: { title, tags },
 } = note;
 
-const { Content } = await note.render();
+const { Content } = await render(note);
 ---
 
 <Layout
-  title={`${title} | Notes | GavDaly`}
-  description={`Notes about ${note}`}
+  title={`${title} | Gavin Daly | GavDaly`}
+  description={`Notes about ${title}`}
 >
-  <h2>{title}</h2>
-  <Tags names={tags} />
-  <article>
-    <Content />
-  </article>
-  <License title={title} />
+  <header slot="header" class="flex flex-col gap-4">
+    <h1 class="text-3xl font-extrabold text-sky-950 dark:text-sky-100 md:text-4xl">
+      {title}
+    </h1>
+    <Tags names={tags} />
+  </header>
+
+  <Content />
+
+  <footer slot="footer" class="text-sm text-sky-700 dark:text-sky-300">
+    <License title={title} />
+  </footer>
 </Layout>

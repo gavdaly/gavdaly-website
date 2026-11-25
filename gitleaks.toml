@@ -1,0 +1,14 @@
+title = "gavdaly gitleaks configuration"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Allow known test credentials used in documentation and fixtures"
+regexes = [
+  '''0x4AAAAAAAwkdALrJuLEDATp''',
+  '''1x0000000000000000000000000000000AA'''
+]
+paths = [
+  '''\.env\.example'''
+]

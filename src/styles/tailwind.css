@@ -1,3 +1,115 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../../tailwind.config.cjs";
+
+:root {
+  --bg: #303446;
+  --surface: #292c3c;
+  --surface-alt: #232634;
+  --border: #414559;
+  --text: #c6d0f5;
+  --text-muted: #a5adce;
+  --text-faint: #737994;
+  --accent: #8caaee;
+  --accent-hover: #85c1dc;
+  --tag-bg: #414559;
+  --success-green: #a6d189;
+  --warning: #e5c890;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+  --text-4xl: 2.75rem;
+  --text-hero: 3.5rem;
+}
+html:not(.dark) {
+  --bg: #eff1f5;
+  --surface: #e6e9ef;
+  --surface-alt: #dce0e8;
+  --border: #bcc0cc;
+  --text: #4c4f69;
+  --text-muted: #5c5f77;
+  --text-faint: #7c7f93;
+  --accent: #1e66f5;
+  --accent-hover: #179299;
+  --tag-bg: #ccd0da;
+}
+html {
+  scroll-behavior: smooth;
+  background: var(--bg);
+}
+body {
+  min-width: 320px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Satoshi", system-ui, sans-serif;
+  font-size: var(--text-base);
+  line-height: 1.6;
+}
+::selection {
+  background: var(--accent);
+  color: var(--surface-alt);
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.mono,
+time,
+.tag,
+.status-badge {
+  font-family: "Monaspace Argon", "SFMono-Regular", Consolas, monospace;
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+.card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2em 0.6em;
+  background: var(--tag-bg);
+  color: var(--text-muted);
+  border-radius: 6px;
+  font-size: var(--text-xs);
+  letter-spacing: 0.02em;
+}
+.uses-grid {
+  display: grid;
+  grid-template-columns: minmax(6.5rem, 8rem) minmax(0, 1fr);
+  gap: 0.75rem 1.5rem;
+  align-items: start;
+}
+.uses-label {
+  color: var(--text-muted);
+  font-family: "Monaspace Argon", "SFMono-Regular", Consolas, monospace;
+  font-size: var(--text-sm);
+}
+@layer utilities {
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

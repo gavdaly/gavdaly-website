@@ -2,7 +2,7 @@
 title: "Clock In"
 technology: ["Leptos", "Axum", "Postgres", "Cloudflare Tunnel", "OpenProps"]
 link: "https://github.com/gavdaly/clockr"
-summary: "A single-tenant time-tracking app."
+summary: "A private, single-tenant time-tracking app built to make staff hours straightforward to record and total."
 status: "On Hold"
 tags:
   - "development"

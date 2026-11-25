@@ -1,27 +1,29 @@
 # Gavin Daly Website
 
-[![CI](https://github.com/gavdaly/gavdaly/actions/workflows/ci.yml/badge.svg)](https://github.com/gavdaly/gavdaly/actions/workflows/ci.yml)
-[![Link Check](https://github.com/gavdaly/gavdaly/actions/workflows/linkcheck.yml/badge.svg)](https://github.com/gavdaly/gavdaly/actions/workflows/linkcheck.yml)
+[![CI](https://github.com/gavdaly/gavdaly-website/actions/workflows/ci.yml/badge.svg)](https://github.com/gavdaly/gavdaly-website/actions/workflows/ci.yml)
+[![Link Check](https://github.com/gavdaly/gavdaly-website/actions/workflows/linkcheck.yml/badge.svg)](https://github.com/gavdaly/gavdaly-website/actions/workflows/linkcheck.yml)
 
 See the project roadmap: [docs/ROADMAP.md](docs/ROADMAP.md)
 
-## About Me 👋
+## Development Environment
 
-Hi, I’m Gavin, a developer based in Canada 🇨🇦. I focus on privacy, efficiency, security, and sustainability. My current work includes projects like the Lordly Framework in Leptos and several Rust-based initiatives.
+You can spin up a ready-to-code workspace using the included Dev Container configuration. It installs Node 23.5.0, pnpm, npm, and Cloudflare Wrangler so the usual `npm` scripts and Pages workflows run out of the box.
 
-You can learn more about me here:
+1. Install the [VS Code Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) or use [GitHub Codespaces](https://github.com/features/codespaces).
+2. Open this repository and choose **Reopen in Container**.
+3. After the container builds, dependencies install automatically (`postCreateCommand`).
 
-- [🌐 Website](https://gavdaly.com)
-- [X](https://x.com/gavdaly)
-- [nostr](https://snort.social/p/npub1f78kggwlt3pfjtwaxgqw80xlp5vqnux6zjmr0hrg2fzwksjr0sts8shlsu)
+The container forwards port `4321` for the Astro dev server and `8787` for Wrangler previews.
 
-I’m always eager to connect with like-minded individuals, collaborate on innovative projects, or discuss new opportunities. [Feel free to reach out](https://gavdaly.com/contact)! ✨
+## Quality Checks
 
-### Projects
+- `npm run lint:all` — ESLint, Markdown, spelling, and ts-prune
+- `npm run qa:content` — Markdown lint, remark link validation, and spell-check across docs/content
+- `npm run test:e2e` — Playwright smoke + accessibility suites
+- `npm run test:lhci` — Build the site and run Lighthouse CI with performance/accessibility budgets
+- `CI: secret scanning` — Gitleaks enforces baseline + allowlist for known test credentials
+- `Dependabot` — Weekly dependency bump PRs (npm + GitHub Actions) every Monday at 07:00 America/Toronto
+- `docs/ci-runtime-review.md` — Quarterly checklist for CI runtime, cache hit rates, and parallelism tuning
+- `docs/telemetry.md` — Configure Cloudflare Observability for sampled request/error telemetry with PII scrubbing
 
-- [Lordly Framework](https://github.com/lordly) _WIP_ - A framework built with Leptos.
-- [Clckr](https://github.com/gavdaly/clockr) - A single tenant time-tracking app.
-
-### Experience
-
-- Developed projects focusing on privacy and security.
+See `docs/content-qa.md` for the full release checklist focused on headings, links, and spelling.
