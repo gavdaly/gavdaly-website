@@ -1,6 +1,4 @@
 # Lychee link checker configuration
-
-verbose = true
 timeout = 20
 max_retries = 3
 retry_wait_time = 2
@@ -15,8 +13,15 @@ exclude = [
   "nostr:*",
   "https://x.com/.*",
   "https://twitter.com/.*",
+  "https://www.reddit.com/*",
   "https://snort.social/.*",
   "https://medium.com/.*",
   "https://www.youtube.com/.*",
+  "https://stacker.news/.*",
+  "https://nixos.wiki/.*",
+  "https://nix-community.github.io/srvos/.*",
+  "https://bolt12.org/.*",
+  "https://gavdaly.com/about$",
+  "https://gavdaly.com/privacy$",
+  "file://.*",
 ]
-
