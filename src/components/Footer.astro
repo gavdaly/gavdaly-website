@@ -1,4 +1,5 @@
 ---
+const commit = import.meta.env.CF_PAGES_COMMIT_SHA ?? import.meta.env.GITHUB_SHA;
 ---
 
 <footer class="border-t border-[var(--border)] px-6 py-8 text-[var(--text-muted)] md:px-10">
@@ -9,4 +10,9 @@
       <a class="transition-colors hover:text-[var(--accent-hover)]" href="https://github.com/gavdaly">GitHub</a>
     </nav>
   </div>
+  {commit && (
+    <div class="mx-auto mt-5 max-w-5xl font-mono text-xs">
+      Build <a class="transition-colors hover:text-[var(--accent-hover)]" href={`https://github.com/gavdaly/gavdaly-website/commit/${commit}`}>{commit.slice(0, 7)}</a>
+    </div>
+  )}
 </footer>

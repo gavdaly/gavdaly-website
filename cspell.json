@@ -2,7 +2,13 @@
   "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
   "version": "0.2",
   "language": "en",
-  "ignorePaths": ["node_modules", "dist", ".astro", "package-lock.json"],
+  "ignorePaths": [
+    "node_modules",
+    "dist",
+    ".astro",
+    ".delta",
+    "package-lock.json"
+  ],
   "ignoreRegExpList": ["0x[0-9A-Za-z]+"],
   "words": [
     "astrojs",

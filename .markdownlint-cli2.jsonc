@@ -1,5 +1,5 @@
 {
-  "globs": ["**/*.md", "!node_modules", "!dist", "!public"],
+  "globs": ["**/*.md", "!node_modules", "!dist", "!public", "!.delta"],
   "config": {
     "default": true,
     "MD013": false,

@@ -43,21 +43,14 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: "npm"
 
-      - name: Cache node_modules
-        id: node-modules-cache
-        uses: actions/cache@v6
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ matrix.node }}-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ matrix.node }}-
-
       - name: Install dependencies
-        if: steps.node-modules-cache.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Prettier check
         run: npm run format:check
+
+      - name: Content QA
+        run: npm run qa:content
 
       - name: Lint (all)
         run: npm run lint:all
@@ -67,13 +60,6 @@ jobs:
 
       - name: Workers type check
         run: npm run typecheck:workers
-
-      - name: Markdown links (remark)
-        run: npm run lint:links
-
-      - name: Dead code (ts-prune)
-        run: npx ts-prune -p tsconfig.json | tee ts-prune.out || true
-        continue-on-error: true
 
       - name: Build
         run: npm run build
