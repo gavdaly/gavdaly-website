@@ -12,10 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version-file: ".nvmrc"
           cache: "npm"
@@ -27,10 +27,11 @@ jobs:
         run: npm run build
 
       - name: Check links in built site and content
-        uses: lycheeverse/lychee-action@v1
+        uses: lycheeverse/lychee-action@v2
         with:
           args: >-
             --no-progress --max-concurrency 4
+            --root-dir dist
             --config lychee.toml
             "dist/**/*.html" "README.md" "src/content/**/*.md"
         env:
