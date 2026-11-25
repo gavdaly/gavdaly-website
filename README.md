@@ -17,6 +17,8 @@ The container forwards port `4321` for the Astro dev server and `8787` for Wrang
 
 ## Quality Checks
 
+Git commits run staged-file checks, formatting, content QA, and both type checks through Husky. Jujutsu commits do not run Git hooks; CI runs these checks for pull requests and pushes to main. Configure branch protection to require CI before merging.
+
 - `npm run lint:all` — ESLint, Markdown, spelling, and ts-prune
 - `npm run qa:content` — Markdown lint, remark link validation, and spell-check across docs/content
 - `npm run test:e2e` — Playwright smoke + accessibility suites

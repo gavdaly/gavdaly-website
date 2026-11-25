@@ -1,0 +1,39 @@
+name: Feature request
+description: Describe a job and measurable outcomes
+title: "feat: "
+labels: [enhancement, agent-ready]
+body:
+  - type: textarea
+    id: job
+    attributes:
+      label: Job statement
+      description: When [situation], I want to [motivation], so I can [expected outcome].
+    validations:
+      required: true
+  - type: checkboxes
+    id: layers
+    attributes:
+      label: Affected architecture layers
+      options:
+        - label: Content and Zod
+        - label: Astro and Tailwind UI
+        - label: SolidJS islands
+        - label: Cloudflare Workers
+        - label: D1 migrations
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Measurable acceptance criteria
+      description: Provide checkboxes that can be verified by Playwright, axe-core, or Zod schema checks.
+      placeholder: "- [ ] ..."
+    validations:
+      required: true
+  - type: dropdown
+    id: visual
+    attributes:
+      label: Visual regression policy
+      options:
+        - Existing snapshots must remain unchanged
+        - Intentional UI changes authorize updating snapshots
+    validations:
+      required: true

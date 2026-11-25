@@ -30,10 +30,14 @@
 
 ## Testing Guidelines
 
-- No unit test runner is configured. Use:
-  - `npm run check` for static/type checks.
-  - `npm run preview` and verify pages, dynamic routes, and layouts.
-- Pages Functions live in `functions/`; validate redirects and form handling with local preview or a staging deploy. Consider adding Playwright/Vitest if you introduce complex logic.
+- Before opening a PR, run `npm run format:check`, `npm run qa:content`, `npm run lint:all`, `npm run typecheck`, `npm run typecheck:workers`, and `npm run test:e2e`.
+- Git commits run staged-file checks, formatting, content QA, and both type checks through Husky. Jujutsu commits do not run Git hooks; run the checks explicitly. CI runs the formatting, content QA, lint, type checks, and build, but does not yet run Playwright or Lighthouse.
+- Playwright covers smoke, accessibility, and visual regression tests in `tests/e2e/`. Existing visual baselines are macOS Chromium snapshots; generate and review matching Linux baselines before enforcing visual comparisons on Linux CI.
+- Update `src/content.config.ts` before introducing content frontmatter fields.
+- Verify D1 schema changes locally against the intended database. `npm run d1:migrate` currently contains a placeholder database name and must be configured before use.
+- Do not run `npm run test:e2e:visual:update` unless the JTBD issue explicitly authorizes intentional visual changes.
+- No unit test runner is configured. Use `npm run preview` to verify pages, dynamic routes, and layouts as needed.
+- Pages Functions live in `functions/`; validate redirects and form handling with local preview or a staging deploy. Consider a unit test runner if you introduce complex logic.
 
 ## Commit & Pull Request Guidelines
 
