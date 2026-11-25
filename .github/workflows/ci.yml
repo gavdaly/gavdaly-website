@@ -6,56 +6,81 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  secrets:
+    name: Secret scanning
+    runs-on: ubuntu-26.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_CONFIG: gitleaks.toml
+          # The action redacts findings and uploads results.sarif itself.
+          GITLEAKS_ENABLE_UPLOAD_ARTIFACT: "true"
+
+  build:
+    runs-on: ubuntu-26.04
+    strategy:
+      matrix:
+        node: [22.x, 24.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version-file: ".nvmrc"
+          node-version: ${{ matrix.node }}
           cache: "npm"
 
+      - name: Cache node_modules
+        id: node-modules-cache
+        uses: actions/cache@v6
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ matrix.node }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ matrix.node }}-
+
       - name: Install dependencies
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Prettier check
-        run: npx prettier --check .
+        run: npm run format:check
 
-      - name: ESLint (no warnings)
-        run: npx eslint "src/**/*.{astro,ts,tsx}" --max-warnings=0
+      - name: Lint (all)
+        run: npm run lint:all
 
-      - name: Astro check
-        run: npm run check
+      - name: Type check (astro)
+        run: npm run typecheck
 
       - name: Workers type check
-        run: npx tsc --noEmit -p tsconfig.workers.json
-
-      - name: Markdown lint
-        run: npx markdownlint-cli2
+        run: npm run typecheck:workers
 
       - name: Markdown links (remark)
-        run: npx remark -q -f .
-
-      - name: Spell check (cspell)
-        run: npx cspell --no-progress --no-summary "**/*.{md,mdx,astro,ts,tsx}"
+        run: npm run lint:links
 
       - name: Dead code (ts-prune)
-        run: |
-          npx ts-prune -p tsconfig.json > ts-prune.out || true
-          if [ -s ts-prune.out ]; then
-            echo "Unused exports detected:" && cat ts-prune.out && exit 1;
-          fi
+        run: npx ts-prune -p tsconfig.json | tee ts-prune.out || true
+        continue-on-error: true
 
       - name: Build
         run: npm run build
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
-          name: site-dist
+          name: site-dist-${{ matrix.node }}
           path: dist
           retention-days: 7

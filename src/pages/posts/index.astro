@@ -2,56 +2,68 @@
 import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import formatDate from "@/utils/formatDate";
+import readingTime from "@/utils/readingTime";
+import { SITE_URL } from "@/data/config";
 
 const posts = (await getCollection("posts")).sort(function (first, second) {
   return second.data.publishedAt.getTime() - first.data.publishedAt.getTime();
 });
----
 
-<head>
-  <script is:inline
-    type="application/ld+json">
-    {"@context": "https://schema.org",
+const postsUrl = new URL("/posts", SITE_URL).toString();
+
+const structuredDataJson = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
       "@type": "Blog",
-      blogPosts: posts.map((post) => ({
+      name: "Gavin Daly — Posts",
+      url: postsUrl,
+      blogPost: posts.map((post) => ({
         "@type": "BlogPosting",
         headline: post.data.title,
         description: post.data.description,
         datePublished: post.data.publishedAt.toISOString(),
-        url: `${Astro.url}/posts/${post.slug}`,
+        url: new URL(`/posts/${post.id}`, SITE_URL).toString(),
       })),
-    }
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: SITE_URL,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Posts",
+          item: postsUrl,
+        },
+      ],
+    },
+  ],
+});
+---
+
+<head>
+  <script is:inline type="application/ld+json">
+    {structuredDataJson}
   </script>
 </head>
 
-<Layout title="Posts | GavDaly" description="A list of post by Gavin Daly">
+<Layout title="Posts by Gavin Daly | GavDaly" description="Writing by Gavin Daly about software, infrastructure, privacy, and security.">
   <main class="flex flex-col">
-    <h2 class="text-2xl mb-6">Posts</h2>
+    <h1 class="mb-8 text-[var(--text-3xl)] font-semibold">Posts by Gavin Daly</h1>
 
     <article class="flex flex-col gap-4">
       {
         posts.map((post) => (
-          <a
-            class="group flex flex-col gap-2 border-sky-600 border-t-2 py-4 transition-all"
-            href={`/posts/${post.slug}`}
-          >
-            <div class="flex w-full items-center justify-between">
-              <h3 class="text-xl font-bold">{post.data.title}</h3>
-
-              <div class="flex flex-row items-center gap-4">
-                <p>{formatDate(post.data.publishedAt)}</p>
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 18 18"
-                  fill="none"
-                  class="transition-all duration-300 group-hover:translate-x-1"
-                >
-                    <use href="#arrow"></use>
-                </svg>
-              </div>
-            </div>
-            <p>{post.data.description}</p>
+          <a class="group flex flex-col gap-3 border-l border-transparent py-4 pl-4 transition-colors hover:border-[var(--accent)]" href={`/posts/${post.id}`}>
+            <h2 class="text-[var(--text-xl)] font-semibold transition-colors group-hover:text-[var(--accent)]">{post.data.title}</h2>
+            <div class="flex flex-wrap gap-2"><time class="tag" datetime={post.data.publishedAt.toISOString()}>{formatDate(post.data.publishedAt)}</time><span class="tag">{readingTime(post.body ?? "")}</span></div>
+            <p class="max-w-2xl text-[var(--text-muted)]">{post.data.description.replaceAll("**", "")}</p>
           </a>
         ))
       }
