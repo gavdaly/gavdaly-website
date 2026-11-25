@@ -6,6 +6,8 @@ image: ""
 layout: ../layouts/MarkdownLayout.astro
 ---
 
+<!-- markdownlint-disable MD025 -->
+
 # Gavin Daly's tools and setup
 
 <p class="uses-label">Last updated: 2026-11-24</p>

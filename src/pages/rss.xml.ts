@@ -10,7 +10,7 @@ const escapeXml = (value: string) =>
         "<": "&lt;",
         ">": "&gt;",
         "&": "&amp;",
-        "'": "&apos;",
+        "'": "&#39;",
         '"': "&quot;",
       })[character] ?? character,
   );
