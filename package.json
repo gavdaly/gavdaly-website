@@ -48,7 +48,7 @@
     "astro-robots-txt": "^1.0.0",
     "astro-seo": "^1.2.0",
     "marked": "^18.2.1",
-    "solid-js": "^1.9.19",
+    "solid-js": "^2.0.3",
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.0"
   },
